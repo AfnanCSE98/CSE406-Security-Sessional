@@ -3,6 +3,7 @@ import aes_1705098
 import rsa_1705098
 import pickle 
 import os
+import time 
 
 HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 65432  # The port used by the server
@@ -83,4 +84,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     f.close()
 
     s.send(data)
-    
+
+    #while(pickle.loads(s.recv(1024)) != "ack"):
+    #    continue
+    time.sleep(2)
+
+    f = open(directory + "/private_key.txt","r")
+    contents =f.read()
+    f.close()
+
+    if( contents == text):
+        print("Successful")
+    else:
+        print("didn't match!")

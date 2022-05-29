@@ -36,6 +36,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             f = open(directory + "/private_key.txt","r")
             contents =f.read()
             f.close()
+            #print(contents)
             rsa_obj.d = int(contents)
             
             # get AES key
@@ -44,6 +45,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             k=""
             for c in key:
                 k += format(ord(c), "x")
+            
             aes_obj = aes_1705098.AES(k)
             
             # decrypt msg
@@ -55,4 +57,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             n = len(decrypted_msg)
             decrypted_msg = decrypted_msg[:n-pad_amount]
+
+            f = open(directory + "/private_key.txt","w")
+            f.write(decrypted_msg)
+            f.close()
+
+            #s.send(pickle.dumps("ack"))
+
             print("decrypted msg = " + decrypted_msg)
